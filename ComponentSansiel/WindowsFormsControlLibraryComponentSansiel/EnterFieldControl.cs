@@ -9,12 +9,31 @@ namespace WindowsFormsControlLibraryComponentSansiel
     {
         public Color DangerColor { get; set; }
         public Color AcceptColor { get; set; }
-        string regex = @"(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)";
+        //string regex = @"(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)";
+        string regex = @"\d\d\.\d\d\.\d\d\d\d";
+
+        /// <summary>
+        /// Изменение регулярки
+        /// </summary>
+        public string TemplateRegex
+        {
+            get { return regex; }
+            set { regex = value; }
+        }
 
         /// <summary>
         /// Получение или измененние значения в максБоксе
         /// </summary>
-        public string TemplateMail
+        public string TemplateText
+        {
+            get { return maskedTextBox.Text; }
+            set { maskedTextBox.Text = value; }
+        }
+
+        /// <summary>
+        /// Получение или измененние значения в максБоксе в виде даты
+        /// </summary>
+        public string TemplateData
         {
             get { return maskedTextBox.Text; }
             set { maskedTextBox.Text = value; }
@@ -45,7 +64,6 @@ namespace WindowsFormsControlLibraryComponentSansiel
         /// </summary>
         private void maskedTextBox_TextChanged(object sender, EventArgs e)
         {
-            regex = @"\d\d\.\d\d\.\d\d\d\d";
             if (!Regex.IsMatch(maskedTextBox.Text, regex))
             {
                 maskedTextBox.BackColor = DangerColor;

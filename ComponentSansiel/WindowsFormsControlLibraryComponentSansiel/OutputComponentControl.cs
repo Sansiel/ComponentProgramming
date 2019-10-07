@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace WindowsFormsControlLibraryComponentSansiel
 {
@@ -12,6 +15,8 @@ namespace WindowsFormsControlLibraryComponentSansiel
             get { return listBox.SelectedIndex; }
         }
 
+        public string FieldType {get; set;}
+
         /// <summary>
         /// Значение выбранного элемента
         /// </summary>
@@ -24,7 +29,23 @@ namespace WindowsFormsControlLibraryComponentSansiel
         /// <summary>
         /// Методы добавления
         /// </summary>
-        public void AddGroupToList(string[] group) { listBox.Items.AddRange(group); }
+        public void AddGroupToList(List<object> o_group)
+        {
+            foreach (var obj in o_group)
+            {
+                string outstr = "";
+                var filtredProp = obj.GetType().GetProperties().Where((x) => FieldType.Split(' ').Contains(x.Name));
+                foreach (var x in filtredProp)
+                {
+                    outstr += " " + x.GetValue(obj).ToString();
+                }
+                listBox.Items.Add(outstr);
+            }
+        }
+        
+
+
+
         public void AddToList(string element) { listBox.Items.Add(element); }
 
         /// <summary>
