@@ -122,7 +122,7 @@
             // 
             // pdfDiagramComponent1
             // 
-            this.pdfDiagramComponent1.FieldType = "Name Pname Count";
+            this.pdfDiagramComponent1.FieldType = "Name Count";
             // 
             // excelReporterComponent1
             // 

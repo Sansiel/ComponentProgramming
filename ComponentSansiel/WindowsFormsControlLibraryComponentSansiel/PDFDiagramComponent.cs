@@ -50,7 +50,7 @@ namespace WindowsFormsControlLibraryComponentSansiel
                 {
                     producers.Add(prod, 0);
                 }
-                producers[prod] += (int) props[2].GetValue(p);
+                producers[prod] += (int) props[1].GetValue(p);
             }
 
             ChartFrame chartFrame = new ChartFrame();
@@ -77,7 +77,7 @@ namespace WindowsFormsControlLibraryComponentSansiel
 
             chart.XAxis.TickLabels.Format = "00";
             chart.XAxis.MajorTickMark = TickMarkType.Outside;
-            chart.XAxis.Title.Caption = "X-Axis";
+            chart.XAxis.Title.Caption = "Made by Sansiel";
             chart.YAxis.MajorTickMark = TickMarkType.Outside;
             chart.YAxis.HasMajorGridlines = true;
 
