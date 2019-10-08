@@ -33,29 +33,23 @@ namespace WindowsFormsControlLibraryComponentSansiel
 
             var props = typeof(T).GetProperties().Where((x) => FieldType.Split(' ').Contains(x.Name)).ToList();
 
-            Dictionary<string, string> products = new Dictionary<string, string>();
-
+            int propsLength = props.Capacity;
+            string[] cells = { "A", "B", "C", "D", "E", "F", "G" };
+            int j = 0;
+            string cell;
             foreach (var p in toReport)
             {
-                var prod = props[0].GetValue(p).ToString();
-                if (!products.ContainsKey(prod))
+                cell = cells[j];
+                for (int i=1; i < propsLength; i++)
                 {
-                    products.Add(prod, "");
+                    
+                    cell += i;
+                    xlsSheet[cell].Value = props[i-1].GetValue(p).ToString();
+                    cell = cells[j];
                 }
-                products[prod] += props[2].GetValue(p).ToString() + " ";
-            }
-
-            int j = 1;
-            foreach (var kv in products)
-            {
-                string cell1 = "A";
-                string cell2 = "B";
-                cell1 += j;
-                cell2 += j;
-                xlsSheet[cell1].Value = kv.Key;
-                xlsSheet[cell2].Value = kv.Value;
                 j++;
             }
+
             xlsxWorkbook.SaveAs(path+ ".xlsx");
         }
 
