@@ -31,15 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.buttonChange = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.outputComponentControl = new WindowsFormsControlLibraryComponentSansiel.OutputComponentControl();
             this.enterFieldControl1 = new WindowsFormsControlLibraryComponentSansiel.EnterFieldControl();
             this.selectComponentControl = new WindowsFormsControlLibraryComponentSansiel.SelectComponentControl();
             this.pdfDiagramComponent1 = new WindowsFormsControlLibraryComponentSansiel.PDFDiagramComponent(this.components);
             this.excelReporterComponent1 = new WindowsFormsControlLibraryComponentSansiel.ExcelReporterComponent(this.components);
             this.createBackUpComponent1 = new WindowsFormsControlLibraryComponentSansiel.CreateBackUpComponent(this.components);
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonChange
@@ -61,6 +61,34 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(44, 301);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(205, 49);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(42, 367);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(206, 47);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(300, 302);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(314, 111);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // outputComponentControl
             // 
@@ -92,33 +120,13 @@
             this.selectComponentControl.TabIndex = 0;
             this.selectComponentControl.ComboBoxSelectedElementChange += new System.EventHandler(this.controlComboBoxSelected_ComboBoxSelectedElementChange);
             // 
-            // button2
+            // pdfDiagramComponent1
             // 
-            this.button2.Location = new System.Drawing.Point(44, 301);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(205, 49);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.pdfDiagramComponent1.FieldType = "Name Pname Count";
             // 
-            // button3
+            // excelReporterComponent1
             // 
-            this.button3.Location = new System.Drawing.Point(42, 367);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(206, 47);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(300, 302);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(314, 111);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.excelReporterComponent1.FieldType = "Name Pname Count";
             // 
             // Form1
             // 

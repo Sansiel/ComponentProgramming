@@ -9,12 +9,13 @@ using System.IO;
 using XsPDF.Charting;
 using XsPDF.Drawing;
 using XsPDF.Pdf;
+using System.Reflection;
 
 namespace WindowsFormsControlLibraryComponentSansiel
 {
     public partial class PDFDiagramComponent : Component
     {
-        public static string FieldType { get; set; }
+        public string FieldType { get; set; }
 
         public PDFDiagramComponent()
         {
@@ -33,37 +34,46 @@ namespace WindowsFormsControlLibraryComponentSansiel
         /// <param name="name">Название свойства содержащего имя производителя.</param>
         /// <param name="count">Название свойства содержащего количество продукта.</param>
         /// <param name="path">Строка вида @"D:\path\to\diagram.pdf".</param>
-        public static void CreateDiagram<T>(List<T> products, string name, double[] count, string path)
+        public void CreateDiagram<T>(List<T> products, string path)
         {
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
-            Chart chart = null;
-            foreach (var product in products)
+
+            var props = typeof(T).GetProperties().Where((x) => FieldType.Split(' ').Contains(x.Name)).ToList();
+
+            Dictionary<string, int> producers = new Dictionary<string, int>();
+
+            foreach (var p in products)
             {
-                var filtredProduct = product.GetType().GetProperties().Where((x) => FieldType.Split(' ').Contains(x.Name));
-                foreach (var prod in filtredProduct)
+                var prod = props[0].GetValue(p).ToString();
+                if (!producers.ContainsKey(prod))
                 {
-                    chart = ColumnChart(name, count);
+                    producers.Add(prod, 0);
                 }
+                producers[prod] += (int) props[2].GetValue(p);
             }
+
             ChartFrame chartFrame = new ChartFrame();
             chartFrame.Location = new XPoint(30, 30);
             chartFrame.Size = new XSize(500, 600);
-            chartFrame.Add(chart);
+            chartFrame.Add(ColumnChart(producers));
 
             XGraphics g = XGraphics.FromPdfPage(page);
             chartFrame.Draw(g);
 
-            document.Save("ColumnChart.pdf");
+            document.Save(path);
         }
 
-        static Chart ColumnChart(string name, double[] count)
+        Chart ColumnChart(Dictionary<string, int> producers)
         {
             Chart chart = new Chart(ChartType.Column2D);
 
-            Series series = chart.SeriesCollection.AddSeries();
-            series.Name = name;
-            series.Add(count);
+            foreach (var kv in producers)
+            {
+                Series series = chart.SeriesCollection.AddSeries();
+                series.Name = kv.Key;
+                series.Add(kv.Value);
+            }
 
             chart.XAxis.TickLabels.Format = "00";
             chart.XAxis.MajorTickMark = TickMarkType.Outside;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using WindowsFormsControlLibraryComponentSansiel;
 
 namespace WindowsFormsComponentTest
 {
@@ -26,10 +27,14 @@ namespace WindowsFormsComponentTest
             public int Age { get; set; }
         }
 
+        [DataContract]
         public class Product
         {
+            [DataMember]
             public string Name { get; set; }
+            [DataMember]
             public string Pname { get; set; }
+            [DataMember]
             public int Count { get; set; }
         }
 
@@ -54,15 +59,13 @@ namespace WindowsFormsComponentTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var x = new List<object>();
-            x.Add((object)new User { Name = "Petya", Age = 13 });
-            x.Add((object)new User { Name = "Masha", Age = 14 });
-            createBackUpComponent1.BackUp(x);
-
-            var y = new List<object>();
-            y.Add((object)new Product { Name = "Petya", Pname = "Hren", Count = 14 });
-            y.Add((object)new Product { Name = "Masha", Pname = "Tomato", Count = 15 });
-            y.Add((object)new Product { Name = "Petya", Pname = "Tomato", Count = 16 });
+            var y = new List<Product>();
+            y.Add(new Product { Name = "Petya", Pname = "Hren", Count = 14 });
+            y.Add(new Product { Name = "Masha", Pname = "Tomato", Count = 15 });
+            y.Add(new Product { Name = "Petya", Pname = "Tomato", Count = 16 });
+            pdfDiagramComponent1.CreateDiagram(y, @"D:\diagram.pdf");
+            createBackUpComponent1.BackUp(y, @"D:\backUp.json");
+            excelReporterComponent1.CreateExcelReport(y, @"D:\book1");
         }
     }
 }

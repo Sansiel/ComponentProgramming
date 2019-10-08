@@ -21,7 +21,7 @@ namespace WindowsFormsControlLibraryComponentSansiel
             InitializeComponent();
         }
 
-        public void BackUp<T>(List<T> toBackUp)
+        public void BackUp<T>(List<T> toBackUp, string path)
         {
             foreach (var temp in toBackUp)
             {
@@ -41,7 +41,7 @@ namespace WindowsFormsControlLibraryComponentSansiel
                 }
             }
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<T>));
-            using (FileStream fs = new FileStream("user.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
                 jsonFormatter.WriteObject(fs, toBackUp);
             }

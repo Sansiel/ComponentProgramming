@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Application = Microsoft.Office.Interop.Excel.Application;
+using IronXL;
 
 namespace WindowsFormsControlLibraryComponentSansiel
 {
     public partial class ExcelReporterComponent : Component
     {
+        public string FieldType { get; set; }
 
         public ExcelReporterComponent()
         {
@@ -23,66 +26,38 @@ namespace WindowsFormsControlLibraryComponentSansiel
             InitializeComponent();
         }
 
-        public static void CreateExcelReport<T>(List<T> toReport, List<T> toReportData, string name)
+        public  void CreateExcelReport<T>(List<T> toReport, string path)
         {
-            // Открываем приложение
-            Application application = new Application
+            WorkBook xlsxWorkbook = WorkBook.Create(ExcelFileFormat.XLSX);
+            WorkSheet xlsSheet = xlsxWorkbook.CreateWorkSheet("main_sheet");
+
+            var props = typeof(T).GetProperties().Where((x) => FieldType.Split(' ').Contains(x.Name)).ToList();
+
+            Dictionary<string, string> products = new Dictionary<string, string>();
+
+            foreach (var p in toReport)
             {
-                DisplayAlerts = false
-            };
-
-            // Файл шаблона
-            const string template = "template.xlsm";
-
-            // Открываем книгу
-            Workbook workBook = application.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, template));
-
-            // Получаем активную таблицу
-            Worksheet workSheet = workBook.ActiveSheet as Worksheet;
-
-            // Записываем данные
-            int j = 1;
-            foreach (var temp in toReport)
-            {
-                workSheet.Cells[1, j] = temp;
-                j++;
-            }
-            j = 1;
-            foreach (var temp in toReportData)
-            {
-                workSheet.Cells[2, j] = temp;
-                j++;
-            }
-
-            //Save
-            string savedFileName = "book1.xlsm";
-            if (name != null) savedFileName = name;
-            workBook.SaveAs(Path.Combine(Environment.CurrentDirectory, savedFileName));
-
-            //Close Excel
-            if (application != null)
-            {
-                int excelProcessId = -1;
-                GetWindowThreadProcessId(application.Hwnd, ref excelProcessId);
-
-                Marshal.ReleaseComObject(workSheet);
-                workBook.Close();
-                Marshal.ReleaseComObject(workBook);
-                application.Quit();
-                Marshal.ReleaseComObject(application);
-
-                application = null;
-                // Прибиваем висящий процесс
-                try
+                var prod = props[0].GetValue(p).ToString();
+                if (!products.ContainsKey(prod))
                 {
-                    Process process = Process.GetProcessById(excelProcessId);
-                    process.Kill();
+                    products.Add(prod, "");
                 }
-                finally { }
+                products[prod] += props[2].GetValue(p).ToString() + " ";
             }
+
+            int j = 1;
+            foreach (var kv in products)
+            {
+                string cell1 = "A";
+                string cell2 = "B";
+                cell1 += j;
+                cell2 += j;
+                xlsSheet[cell1].Value = kv.Key;
+                xlsSheet[cell2].Value = kv.Value;
+                j++;
+            }
+            xlsxWorkbook.SaveAs(path+ ".xlsx");
         }
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern uint GetWindowThreadProcessId(int hWnd, ref int lpdwProcessId);
 
     }
 }
