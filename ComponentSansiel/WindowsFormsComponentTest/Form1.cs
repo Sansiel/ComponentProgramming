@@ -65,7 +65,7 @@ namespace WindowsFormsComponentTest
             y.Add(new Product { Name = "Petya", Pname = "Tomato", Count = 16 });
             pdfDiagramComponent1.CreateDiagram(y, @"D:\diagram.pdf");
             createBackUpComponent1.BackUp(y, @"D:\backUp.json");
-            excelReporterComponent1.CreateExcelReport(y, @"D:\book1");
+            excelReporterComponent1.CreateExcelReport(y, @"D:\book1", false);
         }
     }
 }

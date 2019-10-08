@@ -26,7 +26,7 @@ namespace WindowsFormsControlLibraryComponentSansiel
             InitializeComponent();
         }
 
-        public  void CreateExcelReport<T>(List<T> toReport, string path)
+        public  void CreateExcelReport<T>(List<T> toReport, string path, bool Revert)
         {
             WorkBook xlsxWorkbook = WorkBook.Create(ExcelFileFormat.XLSX);
             WorkSheet xlsSheet = xlsxWorkbook.CreateWorkSheet("main_sheet");
@@ -39,13 +39,21 @@ namespace WindowsFormsControlLibraryComponentSansiel
             string cell;
             foreach (var p in toReport)
             {
-                cell = cells[j];
                 for (int i=1; i < propsLength; i++)
                 {
-                    
-                    cell += i;
-                    xlsSheet[cell].Value = props[i-1].GetValue(p).ToString();
-                    cell = cells[j];
+                    if (Revert)
+                    {
+                        cell = cells[j];
+                        cell += i;
+                        xlsSheet[cell].Value = props[i - 1].GetValue(p).ToString();
+                    }
+                    else
+                    {
+                        cell = cells[i-1];
+                        cell += j+1;
+                        xlsSheet[cell].Value = props[i - 1].GetValue(p).ToString();
+                    }
+
                 }
                 j++;
             }
